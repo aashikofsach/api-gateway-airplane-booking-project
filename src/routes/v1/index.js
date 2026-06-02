@@ -1,10 +1,10 @@
 const express = require("express");
-const {infoController } = require("../../controllers")
+const { infoController } = require("../../controllers");
+const userRouter = require("./user-router");
 
-const  router = express.Router() ;
+const router = express.Router();
 
+router.get("/info", infoController.info);
+router.use("/signup", userRouter);
 
-
-router.get("/info", infoController.info )
-
-module.exports = router ;
+module.exports = router;
