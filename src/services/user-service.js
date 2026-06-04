@@ -51,6 +51,8 @@ async function signIn(data) {
     return jwt ; 
   } catch (error) {
     console.log("error in sign in function ", error)
+    if(error instanceof AppError)
+      throw error
     throw new AppError("Something went wrong", StatusCodes.INTERNAL_SERVER_ERROR);
   }
 }
