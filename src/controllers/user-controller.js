@@ -18,6 +18,23 @@ async function createUser(req, res) {
   }
 }
 
+async function signIn(req, res) {
+  try {
+    console.log("Body is", req.body);
+    const resposne = await UserService.signIn({
+      email: req.body.email,
+      password: req.body.password,
+    });
+    SuccessResponse.data = resposne;
+
+    return res.status(StatusCodes.CREATED).json(SuccessResponse);
+  } catch (error) {
+    ErrorResponse.error = error;
+    return res.status(error.statusCode).json(ErrorResponse);
+  }
+}
+
 module.exports = {
-  createUser
+  createUser,
+  signIn
 };

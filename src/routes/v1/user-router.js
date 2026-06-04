@@ -5,8 +5,13 @@ const { UserController } = require("../../controllers");
 const router = express.Router();
 
 router.post(
-  "/",
+  "/signup",
   UserController.createUser,
+);
+
+router.post(
+  "/signin",
+  UserController.signIn,
 );
 // router.get("/", airplaneController.getAirplanes);
 // router.get("/:id", airplaneController.getAirplane);
