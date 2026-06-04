@@ -1,7 +1,7 @@
 const { PORT } = require("./config");
 const express = require("express");
 const apiRoutes = require("./routes");
-const { ServerConfig, logger } = require("./config");
+const { ServerConfig } = require("./config");
 
 const app = express();
 
@@ -10,6 +10,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", apiRoutes);
 
-app.listen(ServerConfig.PORT, () => {
+app.listen(ServerConfig.PORT, async() => {
   console.log(`The server is running on the PORT: ${ServerConfig.PORT}`);
+ 
 });

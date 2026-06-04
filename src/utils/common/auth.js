@@ -21,7 +21,14 @@ async function createToken(input) {
   }
 }
 
+async function verifyToken(token)
+{
+    return jwt.verify(token, ServerConfig.JWT_SECRET);
+
+}
+
 module.exports = {
   checkPassword,
   createToken,
+  verifyToken
 };

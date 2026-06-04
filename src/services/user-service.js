@@ -48,12 +48,37 @@ async function signIn(data) {
       throw new AppError("password not matched ", StatusCodes.BAD_REQUEST);
     }
     const jwt = await Auth.createToken({ id: user.id, email: user.email });
-    return jwt ; 
+    return jwt;
   } catch (error) {
-    console.log("error in sign in function ", error)
+    console.log("error in sign in function ", error);
+    if (error instanceof AppError) throw error;
+    throw new AppError(
+      "Something went wrong",
+      StatusCodes.INTERNAL_SERVER_ERROR,
+    );
+  }
+}
+
+async function isAuthenticated(token) {
+  try {
+    if (!token) {
+      throw new AppError("Token not found ", StatusCodes.NOT_FOUND);
+    }
+    const response = Auth.verifyToken(token);
+    // why below we have to get user ....
+    const user = await userRepository.get(response.id);
+    if (!user) {
+      throw new AppError("user not found ", StatusCodes.NOT_FOUND);
+    }
+  } catch (error) {
     if(error instanceof AppError)
-      throw error
-    throw new AppError("Something went wrong", StatusCodes.INTERNAL_SERVER_ERROR);
+    {
+      throw error;
+    }
+    if(error.name=="JsonWebTokenError")
+      throw new AppError("Invalid JSON WebToken", StatusCodes.BAD_REQUEST)
+    console.log("isAuthenticate function mein error ", error);
+    throw error ;
   }
 }
 
