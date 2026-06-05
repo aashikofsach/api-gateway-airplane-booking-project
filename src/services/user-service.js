@@ -62,7 +62,7 @@ async function signIn(data) {
 async function isAuthenticated(token) {
   try {
     if (!token) {
-      throw new AppError("Token not found ", StatusCodes.NOT_FOUND);
+      throw new AppError("Token not found ", StatusCodes.UNAUTHORIZED);
     }
     const response = Auth.verifyToken(token);
     // why below we have to get user ....
@@ -76,7 +76,7 @@ async function isAuthenticated(token) {
       throw error;
     }
     if(error.name=="JsonWebTokenError")
-      throw new AppError("Invalid JSON WebToken", StatusCodes.BAD_REQUEST)
+      throw new AppError("Invalid JSON WebToken", StatusCodes.UNAUTHORIZED)
     console.log("isAuthenticate function mein error ", error);
     throw error ;
   }
