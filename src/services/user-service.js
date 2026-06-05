@@ -64,13 +64,14 @@ async function isAuthenticated(token) {
     if (!token) {
       throw new AppError("Token not found ", StatusCodes.UNAUTHORIZED);
     }
-    const response = Auth.verifyToken(token);
+    const response = await Auth.verifyToken(token);
     // why below we have to get user ....
+    console.log("yaha hai response", response)
     const user = await userRepository.get(response.id);
     if (!user) {
       throw new AppError("user not found ", StatusCodes.NOT_FOUND);
     }
-    return user ;
+    return user.id ;
   } catch (error) {
     if(error instanceof AppError)
     {
