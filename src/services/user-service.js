@@ -70,6 +70,7 @@ async function isAuthenticated(token) {
     if (!user) {
       throw new AppError("user not found ", StatusCodes.NOT_FOUND);
     }
+    return user ;
   } catch (error) {
     if(error instanceof AppError)
     {
@@ -77,6 +78,8 @@ async function isAuthenticated(token) {
     }
     if(error.name=="JsonWebTokenError")
       throw new AppError("Invalid JSON WebToken", StatusCodes.UNAUTHORIZED)
+    if(error.name =="TokenExpiredError")
+      throw new AppError("JWT Token Expired ",StatusCodes.UNAUTHORIZED )
     console.log("isAuthenticate function mein error ", error);
     throw error ;
   }
@@ -85,4 +88,5 @@ async function isAuthenticated(token) {
 module.exports = {
   createUser,
   signIn,
+  isAuthenticated
 };
