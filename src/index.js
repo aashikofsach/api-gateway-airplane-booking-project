@@ -3,6 +3,8 @@ const express = require("express");
 const apiRoutes = require("./routes");
 const { ServerConfig } = require("./config");
 const {RateLimitermiddleware} = require("./middlewares")
+const {createProxyMiddleware} = require("http-proxy-middleware")
+
 const {UserService} = require("./services/")
 
 
@@ -10,7 +12,20 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(RateLimitermiddleware.limiter)
+app.use(RateLimitermiddleware.limiter) ;
+
+const proxyMiddleware1 = createProxyMiddleware({
+  target: 'http://localhost:3000/',
+  changeOrigin: true,
+});
+
+const proxyMiddleware2 = createProxyMiddleware({
+  target: 'http://localhost:4000/',
+  changeOrigin: true,
+});
+
+app.use('/flightservice/', proxyMiddleware1);
+app.use("/bookingservice/", proxyMiddleware2)
 
 app.use("/api", apiRoutes);
 
