@@ -17,11 +17,17 @@ app.use(RateLimitermiddleware.limiter) ;
 const proxyMiddleware1 = createProxyMiddleware({
   target: 'http://localhost:3000/',
   changeOrigin: true,
+   pathRewrite: {
+    "^/flightservice": "",
+  },
 });
 
 const proxyMiddleware2 = createProxyMiddleware({
   target: 'http://localhost:4000/',
   changeOrigin: true,
+   pathRewrite: {
+    "^/bookingservice": "",
+  },
 });
 
 app.use('/flightservice/', proxyMiddleware1);
