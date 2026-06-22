@@ -18,7 +18,7 @@ module.exports = {
         }
       },
       role_id: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull :false,
         references :{
           model : "Roles",
